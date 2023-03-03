@@ -3,22 +3,13 @@ import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Background } from './Container/Background';
 import { Box } from './Container/Box';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from 'redux/operations/operations';
-
+import { useGetContactQuery } from 'redux/cotactsSlice/slice';
 import Loader from './Loader/Loader';
-import { selectError, selectIsLoading } from 'redux/selectors/selectors';
 
 export const App = () => {
+	//РАБОТАЕТ!!!!
+	const {data, error, isLoading} = useGetContactQuery()
 
-	const dispatch = useDispatch();
-	const isLoading = useSelector(selectIsLoading);
-	const error = useSelector(selectError);
-
-	useEffect(()=> {
-		dispatch(fetchContacts());
-	}, [dispatch]);
   return (
     <Background>
       <Box
@@ -34,8 +25,8 @@ export const App = () => {
         <> 
           <Filter />
 			 {isLoading && <Loader/>}
-			 {error && <p>{error}</p>}
-          <ContactList />
+			 {error &&  <p>{error}</p>}
+          {data && <ContactList dataContacts={data} />}
         </>
       </Box>
     </Background>

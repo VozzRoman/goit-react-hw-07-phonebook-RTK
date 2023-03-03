@@ -2,12 +2,12 @@ import {
   ButtonContact,
   DialeName,
 } from 'components/ContcatList/ContactListStyle';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operations/operations';
+
 import PropTypes from 'prop-types';
+import { useDeleteContactMutation } from 'redux/cotactsSlice/slice';
 
 export const ContactItem = ({ name, phone, id }) => {
-  const dispatch = useDispatch();
+const [deleteContact] = useDeleteContactMutation();
 
   //   console.log(id);
   return (
@@ -15,7 +15,7 @@ export const ContactItem = ({ name, phone, id }) => {
       <DialeName>
         {name} : <span>{phone}</span>
       </DialeName>
-      <ButtonContact onClick={() => dispatch(deleteContact(id))}>
+      <ButtonContact onClick={() => deleteContact(id)}>
         Delete
       </ButtonContact>
     </>

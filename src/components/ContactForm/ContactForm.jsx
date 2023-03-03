@@ -1,14 +1,17 @@
 import { Button, EnterName, FildName, Forms } from './ContactFormStyle';
-import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { addContact } from 'redux/operations/operations';
-import { selectContactsList } from 'redux/selectors/selectors';
+import { useAddContactMutation, useGetContactQuery } from 'redux/cotactsSlice/slice';
+
 
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContactsList);
-  //   console.log(addContact());
+	const {data} = useGetContactQuery();
+	// console.log(data);
+	
+	const [addContact] = useAddContactMutation(); // хук для добавления контактов addContact - функция которая принемает 
+	// обьект который нужно бодавить, resul - isLoading если нужен
+	
+
   const {
     register,
     handleSubmit,
@@ -17,19 +20,16 @@ export const ContactForm = () => {
   } = useForm({
     mode: 'all',
   });
-  const onFormSubmit = data => {
+  const onFormSubmit = async data => {
     console.log(data.name);
     console.log(data.phone);
-    const { name, phone } = data;
-    console.log(name, phone);
-    if (contacts.find(item => item.name === name)) {
-      return alert('this name alredy exist');
-    }
-    if (contacts.find(item => item.phone === phone)) {
-      return alert('this number alredy exist');
-    }
-
-    dispatch(addContact(data));
+	
+	 try{
+		await addContact(data)
+	 } catch (errore){
+		console.log(errore);
+	 }
+  
     reset();
   };
 
@@ -87,7 +87,7 @@ export const ContactForm = () => {
           Add contact
         </Button>
       </Forms>
-      {!contacts.length ? <h2>The phonebook is empty</h2> : <h2>Contacts</h2>}
+     {!data ? <h2>The phonebook is empty</h2> : <h2>Contacts</h2>}
     </>
   );
 };
