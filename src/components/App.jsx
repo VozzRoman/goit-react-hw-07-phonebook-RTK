@@ -3,12 +3,12 @@ import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Background } from './Container/Background';
 import { Box } from './Container/Box';
-import { useGetContactQuery } from 'redux/cotactsSlice/slice';
-import Loader from './Loader/Loader';
+// import { useGetContactQuery } from 'redux/cotactsSlice/slice';
+// import Loader from './Loader/Loader';
 
 export const App = () => {
 	//РАБОТАЕТ!!!!
-	const {data, error, isLoading} = useGetContactQuery()
+	// const {data, error, isLoading} = useGetContactQuery()
 
   return (
     <Background>
@@ -24,9 +24,13 @@ export const App = () => {
         <ContactForm />
         <> 
           <Filter />
-			 {isLoading && <Loader/>}
+			 {/* {isLoading && <Loader/>}
 			 {error &&  <p>{error}</p>}
-          {data && <ContactList dataContacts={data} />}
+          {data &&  */}
+			 <ContactList 
+			//  dataContacts={data} 
+			 />
+			 {/* } */}
         </>
       </Box>
     </Background>
